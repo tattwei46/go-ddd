@@ -17,19 +17,19 @@ func NewService(repository Repository) *Service {
 
 func (s *Service) RecordAction(ctx context.Context, entityType EntityType, entityID string, action ActionType, userID string, oldData, newData interface{}) error {
 	entry := NewAuditEntry(entityType, entityID, action, userID)
-	
+
 	if oldData != nil {
 		if err := entry.SetOldData(oldData); err != nil {
 			return err
 		}
 	}
-	
+
 	if newData != nil {
 		if err := entry.SetNewData(newData); err != nil {
 			return err
 		}
 	}
-	
+
 	return s.repository.Save(ctx, entry)
 }
 
@@ -51,7 +51,7 @@ func (s *Service) RecordPaymentCreated(ctx context.Context, paymentID string, us
 
 func (s *Service) RecordPaymentStatusChange(ctx context.Context, paymentID string, userID string, oldStatus, newStatus interface{}) error {
 	var action ActionType
-	
+
 	switch newStatus {
 	case "processing":
 		action = ActionTypeProcessed
@@ -64,9 +64,9 @@ func (s *Service) RecordPaymentStatusChange(ctx context.Context, paymentID strin
 	default:
 		return errors.New("unknown payment status")
 	}
-	
+
 	oldData := map[string]interface{}{"status": oldStatus}
 	newData := map[string]interface{}{"status": newStatus}
-	
+
 	return s.RecordAction(ctx, EntityTypePayment, paymentID, action, userID, oldData, newData)
 }

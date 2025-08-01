@@ -104,12 +104,12 @@ func (a *AuditEntry) SetOldData(data interface{}) error {
 	if err != nil {
 		return err
 	}
-	
+
 	var dataMap map[string]interface{}
 	if err := json.Unmarshal(jsonData, &dataMap); err != nil {
 		return err
 	}
-	
+
 	a.oldData = dataMap
 	return nil
 }
@@ -119,12 +119,12 @@ func (a *AuditEntry) SetNewData(data interface{}) error {
 	if err != nil {
 		return err
 	}
-	
+
 	var dataMap map[string]interface{}
 	if err := json.Unmarshal(jsonData, &dataMap); err != nil {
 		return err
 	}
-	
+
 	a.newData = dataMap
 	return nil
 }
