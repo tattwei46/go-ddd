@@ -29,7 +29,7 @@ type Amount struct {
 }
 
 func NewAmount(value float64, currency string) (Amount, error) {
-	if value < 0 {
+	if value > 0 {
 		return Amount{}, errors.New("amount cannot be negative")
 	}
 	if currency == "" {
